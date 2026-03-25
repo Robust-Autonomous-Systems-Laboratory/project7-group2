@@ -13,11 +13,16 @@ __TBD: Setup challenges and how we resolved them__
 
 # Part 1 - TurtleBot3 Simulation
 
-- RViz nav view screenshot
-- Terminal goal confirmation screenshot
-- Costmap screenshot/image
-- Brief description of what was observed (path planning, costmaps, recovery behaviors)
-- It seems this section doesn't require the map yaml and pgm to be saved, double check the nav2 documentation example and/or if its needed regardless
+Part 1 introduces the Nav2 stack through the Turtlebot World simulation enviornment.  When first loaded, the map indicates open, drivable areas as white pixels and barriers, or non-drivable areas as black pixels.  Once the 2D pose estimate is set, cost color layering is applied. Teal areas indicate likely collision areas, followed by a red to blue gradient for all other areas, where red is higher cost (wall is close) and blue is lower cost (wall if far).  Areas between the nine columns are higher cost, so the path planned in Figure 1 planned around the all columns rather than travel between them. 
+
+If the robot becomes stuck, it tries to rotate and try another approach, but if the goal is still unreachable, it fails the execution. A successful route naviation returns a "Goal Reached" message, illustrated in Figure 2.
+
+![Part 1 Nav2 Goal in RViz with Path and Cost Map](./figures/part1_nav2_goal.png)
+
+<u>Figure 1:</u> RViz screenshot illustrating the Turtlebot navigating from the initial starting location to a 2D nav goal, where the route is indicated as the pink line and the cost map is indicated with a gradient of blue (low cost) to red (high cost), with teal areas indicating likely collision areas.
+
+![Part 1 Nav2 Goal Reached Message](./figures/part1_terminal.png)
+<u>Figure 2:</u> Terminal confirmation of 2D nav goal reached as "Reached the Goal!" and "Goal Succeeded".
 
 
 # Part 2 - Real-World Mapping of EERC 722
