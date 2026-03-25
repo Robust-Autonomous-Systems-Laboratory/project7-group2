@@ -6,9 +6,16 @@ Group 2 - Ian Mattson and William Forney
 
 In this project, the ROS2 Nav stack is used with the TurtleBot3 Burger to create a SLAM map in both a simple simultated enviornment and the EERC 722 Lab. Additionally, a more realistic simulated enviornment is mapped using the Clearpath Jackal simulation package. 
 
+## Software Versions
+
 All parts of this project were completed using ROS2 Jazzy Jalisco on an Ubuntu 24.04 Noble Numbat operating system.
 
-__TBD: Setup challenges and how we resolved them__
+
+## Setup Challenges
+
+During the simulation testing, performance and stability issues with Gazebo were encountered. In Part 1, one instance saw the Nav2 target goal pose operate as expected in RViz, but the Turtlebot model in Gazebo did not move. In another instance, the Nav2 stack would not properly initialize.  
+
+These issues were partially resolved by setting the Ubuntu power setting from "balanced" to "performance".  Furthermore, the computer had to be restarted once to properly terminate all gazebo processes and bring them up from scratch again.
 
 
 # Part 1 - TurtleBot3 Simulation
@@ -27,11 +34,30 @@ If the robot becomes stuck, it tries to rotate and try another approach, but if 
 
 # Part 2 - Real-World Mapping of EERC 722
 
-- Completed map screenshot/image
-- Description of driving strategy
-- Rviz point-to-point navigation in the room screenshot/screen recording
-- map yaml and pgm files must be present in [maps](./maps/)
+In this section, we expand the Nav2 implementation to real-world hardware by creating a map of EERC 722 with a Turtlebot3, and using the map with Nav2 to autonomously navigate in the room.
 
+## Driving Strategy
+
+The map creation process is delicate, and the map can easily represent errors.  To minimize map artifacts, we drove the Turtlebot3 slowly (about half the maximum speed) and minimuzed rotational turns that affect the localization stack.  We also aimed to follow the room perimeter as reasonably as possible to minimize the amount of double-back manuevers required to cover the entire room area.
+
+
+## SLAM Map 
+
+The map exhibits some rotational affects in the final product, where the room appears crooked and some artifact wall shadows are present near the edges of the room. This is the result of making several turns to avoid the desk leg layouts in the room, as even though the desks are not large obstacles in the map, the robot could not navigate seamlessly between stools and tables. Given the room's large nature, we found the resulting map in Figure 3 to be the best result we could achieve with the robot.
+
+![Part 2 SLAM Map](./figures/part2_slam_map.png)
+<u>Figure 3:</u> Resulting SLAM Map Screenshot with some slight rotational noise such that room appears crooked from left to right.  Small occupied pixels in the map represent table and chair legs.
+
+## RVIz Waypoint Navigation
+
+We initialized the robot's location in the corner of the room near the door to the lab such that two walls could be used to help align the 2D pose estimate.  Then, a goal destination was selected with Nav2 in the middle of open space in the center of the room. Figure 4 illustrates the robot nearing the target waypoint from the starting location in the corner.
+
+![Part 2 Nav2 Goal](./figures/part2_nav_goal.png)
+<u>Figure 4:</u> RViz Nav2 map point-to-point navigation in EERC 722, navigating from the corner near the door to the center of the open floor in the middle of the room.
+
+## Map Files
+
+The generated map files of EERC 722 are avaible in the [maps](./maps/) directory.  The [`map_eerc722.yaml`](./maps/map_eerc722.yaml) contains map metadata and the [`map_eerc722.pgm`](./maps/map_eerc722.pgm) file is a grayscale image representing the enviornment where white pixels are open, black pixels are occupied, and grey pixels are unknown/unavailable.
 
 # Part 3 - Jackal Simulation
 
