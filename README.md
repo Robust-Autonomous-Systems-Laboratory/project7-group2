@@ -61,11 +61,22 @@ The generated map files of EERC 722 are avaible in the [maps](./maps/) directory
 
 # Part 3 - Jackal Simulation
 
-- Gazebo screenshot
-- RViz nav view screenshot
-- Brief comparison: what was different setting up to Nav2 for the Jackal vs the Turtlebot3
-- map yaml and pgm files must be present in [maps](./maps/)
+In this section, we use the clearpath jackal simulator to explore a larger and more complex simulated environment. As in part 2, we first manually drove the robot around the envronment to build a map using the Nav2 stack, and then demonstrated point-to-point navigation using our generated map.
 
+![Part 3 Gazebo Environment](./figures/part3_gazebo.png )
+<u>Figure 5:</u> Screenshot of default warehouse environment used in clearpath simulations in Gazebo.
+
+
+![Part 3 RViz Nav2 View](./figures/part3_nav_goal.png )
+<u>Figure 6:</u> RViz map showing point-to-point navigation in the clearpath warehouse simulation. 
+
+## Turtlebot3 vs Jackal Nav2 Differences
+
+The biggest difference when setting up Nav2 between the two robots was that the robot.yaml filepath had to be added to the end of the Nav2 and localization launch commands. One weird difference we noticed was that when generating the map for the jackal, the robot would sometimes detect itself and left a trail of detected points that it would navigate around when moving autonomusly. These points can be seen in Figure 6.
+
+## Map Files
+
+The generated map files of the clearpath warehouse are avaible in the [maps](./maps/) directory.  The [`map_jackal_sim.yaml`](./maps/map_jackal_sim.yaml) contains map metadata and the [`map_jackal_sim.pgm`](./maps/map_jackal_sim.pgm) file is a grayscale image representing the enviornment where white pixels are open, black pixels are occupied, and grey pixels are unknown/unavailable.
 
 
 # AI Disclosure Statement
